@@ -40,6 +40,27 @@ var lengthOfLongestSubstring = function(s) {
   return resultLen
 };
 
+// 自己第一次优化过后推测的滑动窗口算法
 var lengthOfLongestSubstring = function(s) {
-
+  const letterArr = s.split('')
+  const len = letterArr.length
+  let width = 1
+  let resultSet = new Set([])
+  if (len === 0) {
+    return 0
+  }
+  for (let i = 0; i <= len - width - 1; i++) {
+    let j = i + width
+    const windowArr = letterArr.slice(i, j)
+    resultSet = new Set(letterArr.slice(i, j))
+    if (resultSet.size < windowArr.length) {
+      continue
+    }
+    while (!resultSet.has(letterArr[j]) && j <= len - 1) {
+      resultSet.add(letterArr[j++])
+    }
+    width = resultSet.size
+    resultSet.clear()
+  }
+  return width
 };
